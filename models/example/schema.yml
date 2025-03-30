@@ -1,4 +1,3 @@
-
 version: 2
 
 models:
@@ -10,10 +9,6 @@ models:
         data_tests:
           - unique
           - not_null
-            config:
-              severity: error
-              error_if: ">10"
-              warn_if: ">0"
 
   - name: my_second_dbt_model
     description: "A starter dbt model"

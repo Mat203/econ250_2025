@@ -1,0 +1,180 @@
+version: 2
+
+sources:
+  - name: fp
+    database: econ250-2025
+    schema: mtalalaievskyi
+    tables:
+      - name: fp_customers
+        description: |
+          This dataset has information about the customer and its location. Use it to identify unique customers in the orders dataset and to find the orders delivery location.
+
+          At our system each order is assigned to a unique customer_id. This means that the same customer will get different ids for different orders. The purpose of having a customer_unique_id on the dataset is to allow you to identify customers that made repurchases at the store. Otherwise you would find that each order had a different customer associated with.
+        columns:
+          - name: customer_id
+            description: "key to the orders dataset. Each order has a unique customer_id."
+            tests:
+              - not_null
+              - unique
+          - name: customer_unique_id
+            description: "unique identifier of a customer."
+            tests:
+              - not_null
+          - name: customer_zip_code_prefix
+            description: "first five digits of customer zip code"
+            tests:
+              - not_null
+          - name: customer_city
+            description: "customer city name"
+            tests:
+              - not_null
+          - name: customer_state
+            description: "customer state"
+            tests:
+              - not_null
+      - name: fp_order_items
+        description: "This dataset includes data about the items purchased within each order."
+        columns:
+          - name: order_id
+            description: "order unique identifier"
+            tests:
+              - not_null
+          - name: order_item_id
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+          - name: product_id
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+          - name: seller_id
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+          - name: shipping_limit_date
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+          - name: price
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+          - name: freight_value
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+      - name: fp_order_payments
+        description: "Description of the orders."
+        columns:
+          - name: order_id
+            description: "Unique ID for the customer."
+            tests:
+              - not_null
+          - name: payment_sequential
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+          - name: payment_type
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+          - name: payment_installments
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+          - name: payment_value
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+      - name: fp_orders
+        description: "Description of the orders."
+        columns:
+          - name: order_id
+            description: "Unique ID for the customer."
+            tests:
+              - not_null
+          - name: customer_id
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+          - name: order_status
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+          - name: order_purchase_timestamp
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+          - name: order_approved_at
+            description: "Another unique customer identifier..."
+          - name: order_delivered_carrier_date
+            description: "Another unique customer identifier..."
+          - name: order_delivered_customer_date
+            description: "Another unique customer identifier..."
+          - name: order_estimated_delivery_date
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+      - name: fp_products
+        description: "Description of the orders."
+        columns:
+          - name: product_id
+            description: "Unique ID for the customer."
+            tests:
+              - not_null
+          - name: product_category_name
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+          - name: product_name_lenght
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+          - name: product_description_lenght
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+          - name: product_photos_qty
+            description: "Another unique customer identifier..."
+          - name: product_weight_g
+            description: "Another unique customer identifier..."
+          - name: product_length_cm
+            description: "Another unique customer identifier..."
+          - name: product_height_cm
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+          - name: product_width_cm
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+      - name: fp_sellers
+        description: "Description of the orders."
+        columns:
+          - name: seller_id
+            description: "Unique ID for the customer."
+            tests:
+              - not_null
+          - name: seller_zip_code_prefix
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+          - name: seller_city
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+          - name: seller_state
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null
+      - name: fp_product_category_name_translation
+        description: "Description of the orders."
+        columns:
+          - name: product_category_name
+            description: "Unique ID for the customer."
+            tests:
+              - not_null
+          - name: product_category_name_english
+            description: "Another unique customer identifier..."
+            tests:
+              - not_null

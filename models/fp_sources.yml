@@ -40,141 +40,129 @@ sources:
             tests:
               - not_null
           - name: order_item_id
-            description: "Another unique customer identifier..."
+            description: "sequential number identifying number of items included in the same order."
             tests:
               - not_null
           - name: product_id
-            description: "Another unique customer identifier..."
+            description: "product unique identifier"
             tests:
               - not_null
           - name: seller_id
-            description: "Another unique customer identifier..."
+            description: "seller unique identifier"
             tests:
               - not_null
           - name: shipping_limit_date
-            description: "Another unique customer identifier..."
+            description: "Shows the seller shipping limit date for handling the order over to the logistic partner."
             tests:
               - not_null
           - name: price
-            description: "Another unique customer identifier..."
+            description: "item price"
             tests:
               - not_null
           - name: freight_value
-            description: "Another unique customer identifier..."
+            description: "item freight value item (if an order has more than one item the freight value is splitted between items)"
             tests:
               - not_null
       - name: fp_order_payments
-        description: "Description of the orders."
+        description: "This dataset includes data about the orders payment options."
         columns:
           - name: order_id
-            description: "Unique ID for the customer."
+            description: "unique identifier of an order."
             tests:
               - not_null
           - name: payment_sequential
-            description: "Another unique customer identifier..."
+            description: "a customer may pay an order with more than one payment method. If he does so, a sequence will be created to"
             tests:
               - not_null
           - name: payment_type
-            description: "Another unique customer identifier..."
+            description: "method of payment chosen by the customer."
             tests:
               - not_null
           - name: payment_installments
-            description: "Another unique customer identifier..."
+            description: "number of installments chosen by the customer."
             tests:
               - not_null
           - name: payment_value
-            description: "Another unique customer identifier..."
+            description: "transaction value."
             tests:
               - not_null
       - name: fp_orders
-        description: "Description of the orders."
+        description: "This is the core dataset. From each order you might find all other information."
         columns:
           - name: order_id
-            description: "Unique ID for the customer."
+            description: "unique identifier of the order."
             tests:
               - not_null
           - name: customer_id
-            description: "Another unique customer identifier..."
+            description: "key to the customer dataset. Each order has a unique customer_id."
             tests:
               - not_null
           - name: order_status
-            description: "Another unique customer identifier..."
+            description: "Reference to the order status (delivered, shipped, etc)."
             tests:
               - not_null
           - name: order_purchase_timestamp
-            description: "Another unique customer identifier..."
+            description: "Shows the purchase timestamp."
             tests:
               - not_null
           - name: order_approved_at
-            description: "Another unique customer identifier..."
+            description: "Shows the payment approval timestamp."
           - name: order_delivered_carrier_date
-            description: "Another unique customer identifier..."
+            description: "Shows the order posting timestamp. When it was handled to the logistic partner."
           - name: order_delivered_customer_date
-            description: "Another unique customer identifier..."
+            description: "Shows the actual order delivery date to the customer."
           - name: order_estimated_delivery_date
-            description: "Another unique customer identifier..."
+            description: Shows the estimated delivery date that was informed to customer at the purchase moment."
             tests:
               - not_null
       - name: fp_products
-        description: "Description of the orders."
+        description: "This dataset includes data about the products sold by Olist."
         columns:
           - name: product_id
-            description: "Unique ID for the customer."
+            description: "unique product identifier"
             tests:
               - not_null
+              - unique
           - name: product_category_name
-            description: "Another unique customer identifier..."
-            tests:
-              - not_null
+            description: "root category of product, in Portuguese."
           - name: product_name_lenght
-            description: "Another unique customer identifier..."
-            tests:
-              - not_null
+            description: "number of characters extracted from the product name."
           - name: product_description_lenght
-            description: "Another unique customer identifier..."
-            tests:
-              - not_null
+            description: "number of characters extracted from the product description."
           - name: product_photos_qty
-            description: "Another unique customer identifier..."
+            description: "number of product published photos"
           - name: product_weight_g
-            description: "Another unique customer identifier..."
+            description: "product weight measured in grams."
           - name: product_length_cm
-            description: "Another unique customer identifier..."
+            description: "product length measured in centimeters."
           - name: product_height_cm
-            description: "Another unique customer identifier..."
-            tests:
-              - not_null
+            description: "product height measured in centimeters."
           - name: product_width_cm
-            description: "Another unique customer identifier..."
-            tests:
-              - not_null
+            description: "product width measured in centimeters."
       - name: fp_sellers
-        description: "Description of the orders."
+        description: "This dataset includes data about the sellers that fulfilled orders made at Olist. Use it to find the seller location and to identify which seller fulfilled each product."
         columns:
           - name: seller_id
-            description: "Unique ID for the customer."
+            description: "seller unique identifier"
             tests:
               - not_null
+              - unique
           - name: seller_zip_code_prefix
-            description: "Another unique customer identifier..."
+            description: "first 5 digits of seller zip code"
             tests:
               - not_null
           - name: seller_city
-            description: "Another unique customer identifier..."
+            description: "seller city name"
             tests:
               - not_null
           - name: seller_state
-            description: "Another unique customer identifier..."
+            description: "seller state"
             tests:
               - not_null
       - name: fp_product_category_name_translation
-        description: "Description of the orders."
+        description: "Translates the product_category_name to english."
         columns:
           - name: product_category_name
-            description: "Unique ID for the customer."
-            tests:
-              - not_null
+            description: "category name in Portuguese"
           - name: product_category_name_english
-            description: "Another unique customer identifier..."
-            tests:
-              - not_null
+            description: "category name in English"

@@ -39,6 +39,9 @@ sources:
             description: "order unique identifier"
             tests:
               - not_null
+              - relationships:
+                    to: ref('fp_orders')
+                    field: order_id  
           - name: order_item_id
             description: "sequential number identifying number of items included in the same order."
             tests:
@@ -47,10 +50,16 @@ sources:
             description: "product unique identifier"
             tests:
               - not_null
+              - relationships:
+                  to: ref('fp_products')
+                  field: product_id
           - name: seller_id
             description: "seller unique identifier"
             tests:
               - not_null
+              - relationships:
+                  to: ref('fp_sellers')
+                  field: seller_id
           - name: shipping_limit_date
             description: "Shows the seller shipping limit date for handling the order over to the logistic partner."
             tests:
@@ -93,6 +102,7 @@ sources:
             description: "unique identifier of the order."
             tests:
               - not_null
+              - unique
           - name: customer_id
             description: "key to the customer dataset. Each order has a unique customer_id."
             tests:

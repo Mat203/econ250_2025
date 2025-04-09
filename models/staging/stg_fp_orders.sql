@@ -18,6 +18,9 @@ with orders as (
     and order_delivered_customer_date is not null
     and order_estimated_delivery_date is not null
     and order_approved_at is not null
+    and order_delivered_carrier_date is not null
+    and order_delivered_customer_date is not null
+    and order_delivered_customer_date is not null
 )
 
 select * from orders

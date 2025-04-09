@@ -12,6 +12,10 @@ with products as (
     cast(product_length_cm as INT64) * cast(product_height_cm as INT64) * cast(product_width_cm as INT64) as product_volume
   from {{ source('fp', 'fp_products') }}
   where product_category_name is not null
+    and product_weight_g is not null
+    and product_height_cm is not null
+    and product_width_cm is not null
+    and product_length_cm is not null
 )
 
 select * from products

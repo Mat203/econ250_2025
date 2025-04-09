@@ -1,15 +1,3 @@
-{{
-  config(
-    materialized = 'table',
-    partition_by = {
-      "field": "order_purchase_timestamp",
-      "data_type": "TIMESTAMP",
-      "granularity": "day"
-    },
-    cluster_by = ["order_status"]
-  )
-}}
-
 with orders as (
   select
     order_id,
@@ -35,7 +23,8 @@ aggregated_items as (
         prod.product_category_name as product_category,
         pct.product_category_name_english as product_category_english,
         oi.price as price,
-        oi.freight_value as freight_value
+        oi.freight_value as freight_value,
+        (oi.price + oi.freight_value) as item_total_value
       )
       order by oi.order_item_id
     ) as order_items

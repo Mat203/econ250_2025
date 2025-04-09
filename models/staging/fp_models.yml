@@ -215,3 +215,9 @@ models:
         description: "Category name in English."
         tests:
           - not_null
+  - name: fp_sales_full
+    tests:
+      - order_count_consistency:
+          mart_model: mrt_order_performance_daily
+      - customer_lifetime_value_consistency:
+          mart_model: mrt_customer_behavior

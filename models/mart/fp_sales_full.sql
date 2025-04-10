@@ -1,3 +1,19 @@
+{{
+  config(
+    materialized='table',
+    persist_docs = {
+       'relation': true,
+       'columns': true 
+    },
+    partition_by = {
+      "field": "order_purchase_timestamp",
+      "data_type": "TIMESTAMP",
+      "granularity": "day"
+    },
+    cluster_by = ["order_status"]
+  )
+}}
+
 with orders as (
   select
     order_id,

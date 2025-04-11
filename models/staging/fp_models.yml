@@ -1,0 +1,223 @@
+version: 2
+
+models:
+  - name: stg_fp_customers
+    description: >
+      Staging model for fp_customers. Cleaning and casting fields
+    columns:
+      - name: customer_id
+        description: "Unique customer identifier (per order)."
+        tests:
+          - not_null
+          - unique
+      - name: customer_unique_id
+        description: "Unique identifier for a customer."
+        tests:
+          - not_null
+      - name: customer_zip_code_prefix
+        description: "First five digits of the customer zip code."
+        tests:
+          - not_null
+      - name: customer_city
+        description: "Cleaned customer city name."
+        tests:
+          - not_null
+      - name: customer_state
+        description: "Cleaned customer state (always uppercase)."
+        tests:
+          - not_null
+
+  - name: stg_fp_order_items
+    description: >
+      Staging model for fp_order_items. This model casts price and freight_value to a numeric type
+    columns:
+      - name: order_id
+        description: "Unique order identifier."
+        tests:
+          - not_null
+      - name: order_item_id
+        description: "Sequential identifier for items within the same order."
+        tests:
+          - not_null
+      - name: product_id
+        description: "Unique product identifier."
+        tests:
+          - not_null
+      - name: seller_id
+        description: "Unique seller identifier."
+        tests:
+          - not_null
+      - name: shipping_limit_date
+        description: "Timestamp by which the seller must hand over the order to the logistic partner."
+        tests:
+          - not_null
+      - name: price
+        description: "Item price."
+        tests:
+          - not_null
+      - name: freight_value
+        description: "Freight cost apportioned to the order item."
+        tests:
+          - not_null
+
+  - name: stg_fp_order_payments
+    description: >
+      Staging model for fp_order_payments. The model cleans payment fields
+    columns:
+      - name: order_id
+        description: "Unique order identifier."
+        tests:
+          - not_null
+      - name: payment_sequential
+        description: "Sequence number of the payment in multi-payment orders."
+        tests:
+          - not_null
+      - name: payment_type
+        description: "Lowercased payment method type (e.g. credit_card, boleto)."
+        tests:
+          - not_null
+      - name: payment_installments
+        description: "Number of installments chosen by the customer."
+        tests:
+          - not_null
+      - name: payment_value
+        description: "Total transaction value."
+        tests:
+          - not_null
+
+  - name: stg_fp_orders
+    description: >
+      Staging model for fp_orders. This core model casts timestamp fields and creates several derived columns:
+      - delivery_duration_days: days between order_purchase_timestamp and order_delivered_customer_date.
+      - order_approval_latency_minutes: minutes between order_purchase_timestamp and order_approved_at.
+      - delivery_delay_days: difference (in days) between the estimated and actual delivery dates.
+      - is_shipped: boolean flag that is true when order_status is 'delivered'.
+    columns:
+      - name: order_id
+        description: "Unique order identifier."
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: "Identifier of the customer placing the order."
+        tests:
+          - not_null
+      - name: order_status
+        description: "Order status, lowercased for standardization."
+        tests:
+          - not_null
+      - name: order_purchase_timestamp
+        description: "Timestamp when the order was purchased."
+        tests:
+          - not_null
+      - name: order_approved_at
+        description: "Timestamp when the payment was approved."
+        tests:
+          - not_null
+      - name: order_delivered_carrier_date
+        description: "Timestamp when the order was handed over to the logistic partner."
+        tests:
+          - not_null
+      - name: order_delivered_customer_date
+        description: "Timestamp when the order was delivered to the customer."
+        tests:
+          - not_null
+      - name: order_estimated_delivery_date
+        description: "Estimated delivery date provided at purchase time."
+        tests:
+          - not_null
+      - name: delivery_duration_days
+        description: "Number of days between the order purchase and customer delivery."
+        tests:
+          - not_null
+      - name: is_shipped
+        description: "Boolean flag: true if order_status is 'delivered', otherwise false."
+        tests:
+          - not_null
+
+  - name: stg_fp_products
+    description: >
+      Staging model for fp_products. This model casts product dimensions, calculates product_volume 
+      (as length * height * width)
+    columns:
+      - name: product_id
+        description: "Unique product identifier."
+        tests:
+          - not_null
+          - unique
+      - name: product_category_name
+        description: "Product's root category in Portuguese."
+        tests:
+          - not_null
+      - name: product_name_length
+        description: "Length of the product name in characters."
+        tests:
+          - not_null
+      - name: product_description_length
+        description: "Length of the product description in characters."
+        tests:
+          - not_null
+      - name: product_photos_qty
+        description: "Number of product photos published."
+        tests:
+          - not_null
+      - name: product_weight_g
+        description: "Product weight in grams."
+        tests:
+          - not_null
+      - name: product_length_cm
+        description: "Product length in centimeters."
+        tests:
+          - not_null
+      - name: product_height_cm
+        description: "Product height in centimeters."
+        tests:
+          - not_null
+      - name: product_width_cm
+        description: "Product width in centimeters."
+        tests:
+          - not_null
+      - name: product_volume
+        description: >
+          Derived field: calculated as product_length_cm * product_height_cm * product_width_cm, giving the product's volume in cubic centimeters.
+
+  - name: stg_fp_sellers
+    description: >
+      Staging model for fp_sellers. This model cleans seller location fields.
+    columns:
+      - name: seller_id
+        description: "Unique seller identifier."
+        tests:
+          - not_null
+          - unique
+      - name: seller_zip_code_prefix
+        description: "First five digits of the seller's zip code."
+        tests:
+          - not_null
+      - name: seller_city
+        description: "Cleaned seller city name."
+        tests:
+          - not_null
+      - name: seller_state
+        description: "Cleaned seller state (always uppercase)."
+        tests:
+          - not_null
+
+  - name: stg_fp_product_category_name_translation
+    description: >
+      Staging model for fp_product_category_name_translation. This model simply passes through the translation mappings.
+    columns:
+      - name: product_category_name
+        description: "Category name in Portuguese."
+        tests:
+          - not_null
+      - name: product_category_name_english
+        description: "Category name in English."
+        tests:
+          - not_null
+  - name: fp_sales_full
+    tests:
+      - order_count_consistency:
+          mart_model: mrt_order_performance_daily
+      - customer_lifetime_value_consistency:
+          mart_model: mrt_customer_behavior
